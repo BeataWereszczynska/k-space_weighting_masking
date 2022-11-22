@@ -5,7 +5,7 @@ k-space weighting and masking for MRI image denoising and brightening (on the ex
 ![Figure2](Fig2.png)
 
 ## The repository contains:
-1. Python script kspace_denoise.py.
+1. Python script msk_wght_kspace.py.
 2. [COMMING SOON] PDF file presenting:
 - short introduction to the topic,
 - how the code works,
