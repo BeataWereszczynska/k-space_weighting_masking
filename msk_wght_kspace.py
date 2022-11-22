@@ -79,7 +79,7 @@ def main():
     path = 'mems_20190406_02.fid'     # .fid folder location [str]
     number_of_slices = 384            # total number of slices in the imaging experiment [int]
     picked_slice = 119                # selected slice number [int]
-    weight_power = 0.1
+    weight_power = 0.09
 
 
     # running calculations and retrieving the results
