@@ -4,7 +4,7 @@ k-space weighting and masking for MRI image denoising and brightening
 (for Agilent FID data)
 
 Created on Mon Nov 21 2022
-Last modified on Tue Nov 22 2022
+Last modified on Wed Nov 23 2022
 
 @author: Beata Wereszczyńska
 """
@@ -13,7 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 
-def msk_wght_kspace(path, number_of_slices, picked_slice, weight_power):
+def msk_wght_kspace(path, number_of_slices, picked_slice, weight_power, contrast):
     """
     k-space weighting and masking for MRI image denoising and brightening
     (for Agilent FID data).
@@ -21,7 +21,8 @@ def msk_wght_kspace(path, number_of_slices, picked_slice, weight_power):
         .fid folder location: path [str],
         total number of slices in the MRI experiment: number_of_slices [int],
         selected slice number: picked_slice [int],
-        weight_power[float].
+        exponent in the signal weighting equation: weight_power[float]
+        restoring contrast: contrast [bool]
     """
     
     # import k-space data
@@ -30,8 +31,16 @@ def msk_wght_kspace(path, number_of_slices, picked_slice, weight_power):
     del path, echoes, number_of_slices, picked_slice
     
     # k-space weighting
-    kspace_weighted = kspace * np.power(abs(kspace), weight_power)
-    del weight_power
+    if contrast:
+        kspace_weighted = kspace * np.power(abs(kspace), 3*weight_power)
+        # contrasting
+        a = kspace_weighted[abs(kspace_weighted) > abs(np.max(kspace_weighted))/6]
+        a = a / np.power(abs(a), weight_power)
+        kspace_weighted[abs(kspace_weighted) > abs(np.max(kspace_weighted))/6] = a
+        del a
+    else:
+        kspace_weighted = kspace * np.power(abs(kspace), weight_power)
+    del contrast, weight_power
     
     # k-space masking
     r = int(kspace.shape[0]/2)
@@ -40,12 +49,12 @@ def msk_wght_kspace(path, number_of_slices, picked_slice, weight_power):
     kspace_weighted = np.multiply(kspace_weighted, mask)
     del mask, r
     
-    # reconstruct the original image
+    # reconstructing the original image
     ft1 = np.fft.fft2(kspace)                 # 2D FFT
     ft1 = np.fft.fftshift(ft1)                # fixing problem with corner being center of the image
     ft1 = np.transpose(np.flip(ft1, (1,0)))   # matching geometry with VnmrJ-calculated image (still a bit shifted)
     
-    # reconstruct denoised image
+    # reconstructing denoised image
     ft2 = np.fft.fft2(kspace_weighted)        # 2D FFT
     ft2 = np.fft.fftshift(ft2)                # fixing problem with corner being center of the image
     ft2 = np.transpose(np.flip(ft2, (1,0)))   # matching geometry with VnmrJ-calculated image (still a bit shifted)
@@ -68,24 +77,26 @@ def msk_wght_kspace(path, number_of_slices, picked_slice, weight_power):
     plt.imshow(abs(ft2), cmap=plt.get_cmap('gray'))
     plt.tight_layout(pad=0, w_pad=0.2, h_pad=0)
     plt.show()
-    
-    del kspace, kspace_weighted
-    
+        
     # return data
-    return ft1, ft2
+    return kspace, kspace_weighted, ft1, ft2
 
 
 def main():
     path = 'mems_20190406_02.fid'     # .fid folder location [str]
     number_of_slices = 384            # total number of slices in the imaging experiment [int]
     picked_slice = 119                # selected slice number [int]
-    weight_power = 0.09
-
+    weight_power = 0.09               # exponent in the signal weighting equation [float]
+    contrast = 1                      # restoring contrast [bool]
 
     # running calculations and retrieving the results
-    ft1, ft2 = msk_wght_kspace(path, number_of_slices, picked_slice, weight_power)
+    k, kw, ft1, ft2 = msk_wght_kspace(path, number_of_slices, picked_slice, weight_power, contrast)
     
     # creating global variables to be available after the run completion
+    global MRI_k
+    MRI_k = k
+    global MRI_kw
+    MRI_kw = kw
     global MRI_ft1
     MRI_ft1 = ft1
     global MRI_ft2
