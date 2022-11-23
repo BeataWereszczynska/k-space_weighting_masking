@@ -1,8 +1,8 @@
 # k-space_wght_msk_for_MRI_denoising
 k-space weighting and masking for MRI image denoising and brightening (on the example of Agilent FID data). (Python3)
 
-![Figure1](Fig1.png)
-![Figure2](Fig2.png)
+![Figure1](Figure1.png)
+![Figure2](Figure2.png)
 
 ## The repository contains:
 1. Python script msk_wght_kspace.py.
@@ -11,7 +11,7 @@ k-space weighting and masking for MRI image denoising and brightening (on the ex
 - how the code works,
 - sample results.
 3. Sample FID data in the mems_20190406_02.fid folder.
-4. Sample results illustration in Fig1.png and Fig2.png.
+4. Sample results illustration in Figure1.png and Figure2.png.
 
 ## Literature reference (for the sample data)
 Beata Wereszczyńska, *Alcohol-fixed specimens for high-contrast post-mortem MRI*, Forensic Imaging, Volume 25, 2021, 200449, ISSN 2666-2256, https://doi.org/10.1016/j.fri.2021.200449. (https://www.sciencedirect.com/science/article/pii/S2666225621000208)
