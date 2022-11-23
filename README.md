@@ -1,5 +1,5 @@
 # k-space_wght_msk_for_MRI_denoising
-k-space weighting and masking for denoising of MRI image without blurring or losing contrast, as well as for brightening of the objects in the image with simultaneous noise reduction (on the example of Agilent FID data). (Python3)
+k-space weighting and masking for denoising of MRI image without blurring or losing contrast, as well as for brightening of the objects in the image with simultaneous noise reduction (on the example of Agilent FID data).
 
 ![Figure1](Figure1.png)
 ![Figure2](Figure2.png)
