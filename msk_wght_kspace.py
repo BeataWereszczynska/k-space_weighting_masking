@@ -22,7 +22,7 @@ def msk_wght_kspace(path, number_of_slices, picked_slice, weight_power, contrast
         total number of slices in the MRI experiment: number_of_slices [int],
         selected slice number: picked_slice [int],
         exponent in the signal weighting equation: weight_power[float]
-        restoring contrast: contrast [bool]
+        restoring contrast: contrast [bool] (1 for denoising, 0 for brightening).
     """
     
     # import k-space data
@@ -37,9 +37,11 @@ def msk_wght_kspace(path, number_of_slices, picked_slice, weight_power, contrast
         a = kspace_weighted[abs(kspace_weighted) > abs(np.max(kspace_weighted))/6]
         a = a / np.power(abs(a), weight_power)
         kspace_weighted[abs(kspace_weighted) > abs(np.max(kspace_weighted))/6] = a
+        title = 'Denoised image'
         del a
     else:
         kspace_weighted = kspace * np.power(abs(kspace), weight_power)
+        title = 'Brightened image'
     del contrast, weight_power
     
     # k-space masking
@@ -60,7 +62,7 @@ def msk_wght_kspace(path, number_of_slices, picked_slice, weight_power, contrast
     ft2 = np.transpose(np.flip(ft2, (1,0)))   # matching geometry with VnmrJ-calculated image (still a bit shifted)
     ft2 = ft2 / (np.max(abs(ft2)) / np.max(abs(ft1))) # normalization
     
-    # k-space
+    # visualization
     kspace_weighted = kspace_weighted / (np.max(abs(kspace_weighted)) / np.max(abs(kspace)))
     plt.rcParams['figure.dpi'] = 600
     plt.subplot(141)
@@ -73,11 +75,12 @@ def msk_wght_kspace(path, number_of_slices, picked_slice, weight_power, contrast
     plt.title('Original image', fontdict = {'fontsize' : 7}), plt.axis('off')
     plt.imshow(abs(ft1), cmap=plt.get_cmap('gray'))
     plt.subplot(144)
-    plt.title('Denoised image', fontdict = {'fontsize' : 7}), plt.axis('off')
+    plt.title(title, fontdict = {'fontsize' : 7}), plt.axis('off')
     plt.imshow(abs(ft2), cmap=plt.get_cmap('gray'))
     plt.tight_layout(pad=0, w_pad=0.2, h_pad=0)
     plt.show()
-        
+    del title
+    
     # return data
     return kspace, kspace_weighted, ft1, ft2
 
