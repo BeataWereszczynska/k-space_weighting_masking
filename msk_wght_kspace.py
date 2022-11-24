@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-k-space weighting and masking for MRI image denoising and brightening
-(for Agilent FID data)
+k-space weighting and masking for denoising of MRI image without blurring or losing contrast, 
+as well as for brightening of the objects in the image with simultaneous noise reduction
+(for Agilent FID data).
 
 Created on Mon Nov 21 2022
 Last modified on Thu Nov 24 2022
@@ -15,7 +16,8 @@ import cv2
 
 def msk_wght_kspace(path, number_of_slices, picked_slice, weight_power, contrast):
     """
-    k-space weighting and masking for MRI image denoising and brightening
+    k-space weighting and masking for denoising of MRI image without blurring or losing contrast, 
+    as well as for brightening of the objects in the image with simultaneous noise reduction
     (for Agilent FID data).
     Input:
         .fid folder location: path [str],
@@ -51,6 +53,9 @@ def msk_wght_kspace(path, number_of_slices, picked_slice, weight_power, contrast
     kspace_weighted = np.multiply(kspace_weighted, mask)
     del mask, r
     
+    # normalization
+    kspace_weighted = kspace_weighted / (np.max(abs(kspace_weighted)) / np.max(abs(kspace)))
+        
     # reconstructing the original image
     ft1 = np.fft.fft2(kspace)                 # 2D FFT
     ft1 = np.fft.fftshift(ft1)                # fixing problem with corner being center of the image
@@ -60,10 +65,6 @@ def msk_wght_kspace(path, number_of_slices, picked_slice, weight_power, contrast
     ft2 = np.fft.fft2(kspace_weighted)        # 2D FFT
     ft2 = np.fft.fftshift(ft2)                # fixing problem with corner being center of the image
     ft2 = np.transpose(np.flip(ft2, (1,0)))   # matching geometry with VnmrJ-calculated image (still a bit shifted)
-    
-    # normalization
-    ft2 = ft2 / (np.max(abs(ft2)) / np.max(abs(ft1))) 
-    kspace_weighted = kspace_weighted / (np.max(abs(kspace_weighted)) / np.max(abs(kspace)))
     
     # visualization
     plt.rcParams['figure.dpi'] = 600
