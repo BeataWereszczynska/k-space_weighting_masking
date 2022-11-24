@@ -4,7 +4,7 @@ k-space weighting and masking for MRI image denoising and brightening
 (for Agilent FID data)
 
 Created on Mon Nov 21 2022
-Last modified on Wed Nov 23 2022
+Last modified on Thu Nov 24 2022
 
 @author: Beata Wereszczyńska
 """
