@@ -60,10 +60,12 @@ def msk_wght_kspace(path, number_of_slices, picked_slice, weight_power, contrast
     ft2 = np.fft.fft2(kspace_weighted)        # 2D FFT
     ft2 = np.fft.fftshift(ft2)                # fixing problem with corner being center of the image
     ft2 = np.transpose(np.flip(ft2, (1,0)))   # matching geometry with VnmrJ-calculated image (still a bit shifted)
-    ft2 = ft2 / (np.max(abs(ft2)) / np.max(abs(ft1))) # normalization
+    
+    # normalization
+    ft2 = ft2 / (np.max(abs(ft2)) / np.max(abs(ft1))) 
+    kspace_weighted = kspace_weighted / (np.max(abs(kspace_weighted)) / np.max(abs(kspace)))
     
     # visualization
-    kspace_weighted = kspace_weighted / (np.max(abs(kspace_weighted)) / np.max(abs(kspace)))
     plt.rcParams['figure.dpi'] = 600
     plt.subplot(141)
     plt.title('Original k-space', fontdict = {'fontsize' : 7}), plt.axis('off')
