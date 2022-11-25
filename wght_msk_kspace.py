@@ -5,7 +5,7 @@ as well as for brightening of the objects in the image with simultaneous noise r
 (for Agilent FID data).
 
 Created on Mon Nov 21 2022
-Last modified on Thu Nov 24 2022
+Last modified on Fri Nov 25 2022
 
 @author: Beata Wereszczyńska
 """
@@ -14,7 +14,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 
-def msk_wght_kspace(path, number_of_slices, picked_slice, weight_power, contrast):
+def wght_msk_kspace(path, number_of_slices, picked_slice, weight_power, contrast):
     """
     k-space weighting and masking for denoising of MRI image without blurring or losing contrast, 
     as well as for brightening of the objects in the image with simultaneous noise reduction
@@ -96,7 +96,7 @@ def main():
     contrast = 1                      # restoring contrast [bool]
 
     # running calculations and retrieving the results
-    k, kw, ft1, ft2 = msk_wght_kspace(path, number_of_slices, picked_slice, weight_power, contrast)
+    k, kw, ft1, ft2 = wght_msk_kspace(path, number_of_slices, picked_slice, weight_power, contrast)
     
     # creating global variables to be available after the run completion
     global MRI_k
