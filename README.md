@@ -1,4 +1,7 @@
 # k-space_wght_msk_for_MRI_denoising
+
+[![DOI](https://zenodo.org/badge/569083801.svg)](https://zenodo.org/badge/latestdoi/569083801)
+
 k-space weighting and masking for denoising of MRI image without blurring or losing contrast, as well as for brightening of the objects in the image with simultaneous noise reduction (on the example of Agilent FID data).
 
 ![Figure1](Figure1.png)
