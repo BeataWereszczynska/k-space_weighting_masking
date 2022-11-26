@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Wereszczyńska"
+    given-names: "Beata"
+    orcid: "https://orcid.org/0000-0003-3013-212X"
+title: "k-space weighting and masking for denoising of MRI image without blurring or losing contrast, as well as for brightening of the objects in the image with simultaneous noise reduction"
+version: v1.0
+doi: 10.5281/zenodo.7367057
+date-released: 2022-11-26
+url: "https://github.com/BeataWereszczynska/k-space_wght_msk_for_MRI_denoising"
