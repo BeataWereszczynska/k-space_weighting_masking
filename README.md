@@ -20,7 +20,7 @@ k-space weighting and masking for denoising of MRI image without blurring or los
 Beata Wereszczyńska, ***Alcohol-fixed specimens for high-contrast post-mortem MRI***, Forensic Imaging, Volume 25, 2021, 200449, ISSN 2666-2256, https://doi.org/10.1016/j.fri.2021.200449. (https://www.sciencedirect.com/science/article/pii/S2666225621000208)
 
 ## License
-The software is licensed under the **MIT license**. The non-software content of this project is licensed under the **Creative Commons Attribution 4.0 International** license. See the LICENSE file for license rights and limitations.
+The software is licensed under the **MIT license**. The non-software content of this project is licensed under the **Creative Commons Attribution 4.0 International license**. See the LICENSE file for license rights and limitations.
 
 ## You may also like
 **k-space_masking_for_MRI_denoising** - Graduate k-space masking for MRI image denoising and blurring (on the example of Agilent FID data), https://doi.org/10.5281/zenodo.7359195 (https://github.com/BeataWereszczynska/k-space_masking_for_MRI_denoising).
